@@ -1,0 +1,59 @@
+using System;
+using System.Collections.Generic;
+
+namespace PaynetUseCase
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+
+            Console.WriteLine(IsAnagrams("ASDasdasd", "dasasdasda"));
+
+            Console.ReadLine();
+        }
+
+
+        public static string IsAnagrams(string a, string b)
+        {
+            string anagrams = "Anagrams";
+            string notAnagrams = "Not Anagrams";
+
+            if (a.Length != b.Length)
+                return notAnagrams;
+
+            // dizinin elemanlarında hangi karakter kaç defa kullanılmış hesaplanır, geri döner
+            var aFrequency = CalculateFrequency(a);
+            var bFrequency = CalculateFrequency(b);
+
+            foreach (var key in aFrequency.Keys)
+            {
+                // a nın elemanları b de var mı ve eşitmi kontrolleri yapılır , değilse direk not anagrams dönülür.
+                if (!bFrequency.ContainsKey(key))
+                    return notAnagrams;
+                if (aFrequency[key] != bFrequency[key])
+                    return notAnagrams;
+            }
+
+            return anagrams;
+        }
+
+        private static Dictionary<char, int> CalculateFrequency(string text)
+        {
+            Dictionary<char, int> result = new Dictionary<char, int>();
+
+            text = text.ToLower();
+            foreach (var item in text)
+            {
+                if (!result.ContainsKey(item))
+                {
+                    result.Add(item, 0);
+                }
+                result[item]++;
+            }
+            return result;
+        }
+
+    }
+
+}
